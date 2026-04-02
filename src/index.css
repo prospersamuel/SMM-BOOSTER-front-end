@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(0.65 0.22 162); /* Emerald color */
+  --color-primary-dark: oklch(0.55 0.22 162);
+  --color-primary-light: oklch(0.95 0.1 162);
+}
+
+:root {
+  --primary: 142 86% 45%;
+  --primary-dark: 142 76% 36%;
+  --primary-light: 142 90% 96%;
+}
+
+@layer base {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px theme('colors.white') inset !important;
+    -webkit-text-fill-color: theme('colors.gray.800') !important;
+  }
+}
+
+body {
+  @apply antialiased text-gray-800 bg-gray-50;
+}
+
+.btn-primary {
+  @apply bg-[#00786A] hover:bg-[#004D3E] text-white font-semibold py-2.5 px-6 rounded-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-secondary {
+  @apply border border-gray-300 bg-white text-gray-700 font-medium py-2.5 px-6 rounded-md hover:bg-gray-50 transition-all duration-200;
+}
+
+.card {
+  @apply bg-white rounded-md shadow-lg border border-gray-100 p-6 hover:shadow-xl transition-shadow;
+}
+
+.input-field {
+  @apply w-full px-4 py-2 outline-0 border-[#00786A] transition-all duration-100 border-b-2 focus:border-b-4;
+}
+
+.sidebar-link {
+  @apply flex items-center gap-3 px-4 py-3 rounded-md transition-all hover:bg-gray-100 text-gray-700;
+}
+
+.sidebar-link.active {
+  @apply bg-emerald-50 text-[#00786A] border-r-4 border-[#00786A];
+}
