@@ -23,20 +23,16 @@ export const AuthProvider = ({ children }) => {
   const signup = async (email, password) => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
 
-    // 🔥 CREATE FIRESTORE USER DOC (ONCE)
     await setDoc(doc(db, "users", res.user.uid), {
       userId: res.user.uid,
       email: res.user.email,
       balance: 0,
       createdAt: Timestamp.now(),
-      emailVerified: false
+      emailVerified: res.user.emailVerified
     });
+
     return res;
   };
-
-  const sendVerification = async (user) => {
-  return sendEmailVerification(user);
-};
 
   // 🔹 LOGIN
   const login = (email, password) =>
@@ -47,7 +43,6 @@ export const AuthProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     const res = await signInWithPopup(auth, provider);
 
-    // 👇 Only create Firestore doc if it doesn't exist
     const ref = doc(db, "users", res.user.uid);
     const snap = await getDoc(ref);
 
@@ -63,27 +58,22 @@ export const AuthProvider = ({ children }) => {
     return res;
   };
 
+  const sendVerification = async (user) => sendEmailVerification(user);
   const logout = () => signOut(auth);
 
   // 🔹 KEEP USER LOGGED IN
-useEffect(() => {
-  const unsub = onAuthStateChanged(auth, (currentUser) => {
-    if (currentUser && !currentUser.emailVerified) {
-      setUser(null);
-    } else {
-      setUser(currentUser);
-    }
-    setLoading(false);
-  });
-  return unsub;
-}, []);
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser); // keep user even if email not verified
+      setLoading(false);
+    });
+    return unsub;
+  }, []);
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="flex items-center justify-center min-h-screen">
-        <Loader className="animate-spin text-emerald-600 rounded-full h-12 w-12"/>
-      </div>
+        <Loader className="animate-spin text-emerald-600 rounded-full h-12 w-12" />
       </div>
     );
   }
@@ -92,7 +82,7 @@ useEffect(() => {
     <AuthContext.Provider
       value={{ user, signup, login, googleLogin, logout, sendVerification }}
     >
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };

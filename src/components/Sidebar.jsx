@@ -16,6 +16,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import BalanceDisplay from "./BalanceDisplay";
 import MobileMenu from "./MobileMenu";
+import { BiSupport } from "react-icons/bi";
 
 export default function Sidebar() {
   const { user, logout } = useAuth();
@@ -53,6 +54,7 @@ export default function Sidebar() {
     { path: "/order", label: "New Order", icon: <PlusCircle size={20} /> },
     { path: "/orders", label: "My Orders", icon: <ListOrdered size={20} /> },
     { path: "/profile", label: "Profile", icon: <User size={20} /> },
+    { path: "/support", label: "Support", icon: <BiSupport size={20} /> },
   ];
 
   return (
@@ -67,9 +69,6 @@ export default function Sidebar() {
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <h1 className="text-xl font-bold text-[#00786A]">
-              SMM <sub className="font-bold text-[#222] -ml-1">BOOSTER</sub>
-            </h1>
           </div>
           <div className="flex items-center gap-3">
             <BalanceDisplay variant="default" />

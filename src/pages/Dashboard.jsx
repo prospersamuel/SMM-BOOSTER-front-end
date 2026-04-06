@@ -96,7 +96,7 @@ const statCards = [
     <div className="pt-24 lg:pt-0">
       <div className="mb-8">
         <p className="text-gray-600">Welcome back,</p>
-        <h1 className="text-3xl font-bold text-gray-800"> {profile?.displayName ||profile?.email?.split('@')[0]}</h1>
+        <h1 className="text-3xl font-bold text-gray-800"> {profile?.displayName || profile?.email?.split('@')[0]}</h1>
       </div>
 
       {/* Stats Grid */}

@@ -7,7 +7,8 @@ import Content from "../components/Content";
 import toast from "react-hot-toast";
 import { getErrorMessage } from "./Login";
 import { sendEmailVerification } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { auth, db } from "../lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Signup() {
   const { signup, googleLogin } = useAuth();
@@ -49,7 +50,7 @@ export default function Signup() {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  if (form.password !== form.confirmPassword) {
+  if (form.password.trim() !== form.confirmPassword.trim()) {
     return toast.error("Passwords do not match");
   }
 
@@ -64,12 +65,32 @@ const handleSubmit = async (e) => {
   try {
     const res = await signup(form.email, form.password);
 
-    // send verification email
+    // Send verification email
     await sendEmailVerification(res.user);
 
+    // Show popup
     setShowVerifyModal(true);
 
     toast.success("Account created! Verify your email.");
+
+    // Start polling for verification
+    const interval = setInterval(async () => {
+      await res.user.reload(); // refresh user object
+      if (res.user.emailVerified) {
+        clearInterval(interval);
+
+        // Update Firestore emailVerified field
+        await setDoc(
+          doc(db, "users", res.user.uid),
+          { emailVerified: true },
+          { merge: true }
+        );
+
+        setShowVerifyModal(false);
+        toast.success("Email verified! Redirecting...");
+        navigate("/dashboard");
+      }
+    }, 3000); // check every 3 seconds
   } catch (err) {
     toast.error(getErrorMessage(err) || "Failed to create account");
   } finally {

@@ -11,6 +11,7 @@ import Layout from "./components/Layout";
 import { AuthProvider } from "./context/AuthContext";
 import TopUp from "./pages/TopUp";
 import ToastProvider from "./components/ToastProvider";
+import Support from "./pages/Support";
 
 export default function App() {
   return (
@@ -33,6 +34,8 @@ export default function App() {
             <Route path="orders" element={<Orders />} />
             <Route path="profile" element={<Profile />} />
             <Route path="topup" element={<TopUp />} />
+            <Route path="support" element={<Support />} />
+            <Route path="*" element={<div>404 - Not Found</div>} />
           </Route>
         </Routes>
       </AuthProvider>

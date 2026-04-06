@@ -5,8 +5,9 @@ import { useAuth } from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import Content from "../components/Content";
-import {auth} from '../lib/firebase'
-import { sendEmailVerification } from "firebase/auth";
+import { auth, db } from "../lib/firebase";
+import { sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Login() {
   const { login, googleLogin } = useAuth();
@@ -35,20 +36,32 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
 
-    if (!auth.currentUser.emailVerified) {
-  toast.error("Please verify your email before logging in.");
-  sendEmailVerification(auth.currentUser)
-  await auth.signOut();
-  return;
-}
-
     try {
-      await login(email, password);
-      // toast.success("Logged in successfully!");
+      const userCredential = await login(email, password);
+      const loggedInUser = userCredential.user;
+
+      if (!loggedInUser.emailVerified) {
+        await sendEmailVerification(loggedInUser);
+        toast.error("Please verify your email. Verification email resent.");
+        await auth.signOut();
+        return;
+      }
+
+      if (loggedInUser.emailVerified) {
+        await setDoc(
+          doc(db, "users", loggedInUser.uid),
+          { emailVerified: true },
+          { merge: true }
+        );
+      } else {
+        return;
+      }
+
       navigate("/dashboard");
     } catch (err) {
-      console.log(err);
       toast.error(getErrorMessage(err));
+      console.log(err);
+      
     } finally {
       setLoading(false);
     }
@@ -65,7 +78,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-white h-screen pb-10 flex flex-col-reverse lg:flex-row items-stretch">
+    <div className="min-h-screen bg-white lg:h-screen pb-10 flex flex-col-reverse lg:flex-row items-stretch">
       {/* Left Side - Form */}
       <div className="flex-1 flex items-center justeify-center p-4">
         <div className="bg-whiete rounded-md w-full overflow-hidden">
@@ -126,6 +139,25 @@ export default function Login() {
                     {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                   </button>
                 </div>
+
+                <p
+                  onClick={async () => {
+                    if (email.trim() === "") {
+                      toast.error("Please enter your email to reset password");
+                      return;
+                    }
+                    try {
+                      await sendPasswordResetEmail(auth, email);
+                      toast.success("Reset email link sent! Check your inbox.");
+                    } catch (err) {
+                      toast.error(getErrorMessage(err));
+                      console.log(err);
+                    }
+                  }}
+                  className="text-xs hover:underline mt-2 text-end cursor-pointer"
+                >
+                  Forgot password
+                </p>
               </div>
 
               <button

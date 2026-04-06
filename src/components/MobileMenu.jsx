@@ -52,7 +52,7 @@ export default function MobileMenu({ isOpen, onClose }) {
           {/* Logout Button */}
          <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-[#00786A] rounded-md text-[#00786A] cursor-pointer transition-all hover:bg-emerald-50"
+            className="w-full flex items-center gap-2 px-4 py-2 border-2 border-[#00786A] rounded-md text-[#00786A] cursor-pointer transition-all hover:bg-emerald-50"
           >
             <LogOut size={18} />
             Logout

@@ -23,7 +23,6 @@ import {
   EyeOff,
   CheckCircle,
   XCircle,
-  Edit2,
   Save,
   History,
   Trash2,
@@ -34,6 +33,7 @@ import {
   ChevronUp,
   RefreshCw,
   Copy,
+  Edit,
 } from "lucide-react";
 
 export default function Profile() {
@@ -301,7 +301,7 @@ const fetchProfileData = async () => {
                 <div className="p-4 border-b border-gray-100">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h2 className="text-xl font-semibold text-gray-800">
+                      <h2 className="text-xl truncate font-semibold text-gray-800">
                         Personal Information
                       </h2>
                       <p className="text-gray-600 text-sm mt-1">
@@ -311,10 +311,9 @@ const fetchProfileData = async () => {
                     {!editMode ? (
                       <button
                         onClick={() => setEditMode(true)}
-                        className="flex items-center cursor-pointer gap-1 px-3 py-2 text-[#00786A] text-sm font-medium hover:bg-emerald-50 rounded-md transition-all"
+                        className="flex items-center flex-col cursor-pointer gap-1 px-3 py-2 text-[#00786A] text-sm bg-rerd-500 truncate font-medium hover:bg-emerald-50 rounded-md transition-all"
                       >
-                        <Edit2 size={12} />
-                        Edit Profile
+                        <Edit size={20} />
                       </button>
                     ) : (
                       <div className="flex items-center">
