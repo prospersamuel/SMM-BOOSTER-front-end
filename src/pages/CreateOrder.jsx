@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Loader } from "lucide-react";
 import toast from "react-hot-toast";
+import { API_URL } from "../lib/api";
 
 // Image URLs for platforms
 const platformImages = {
@@ -51,7 +52,7 @@ function CreateOrder() {
           return;
         }
 
-        const res = await fetch("http://localhost:3000/services");
+        const res = await fetch(`${API_URL}/services`);
 
         if (!res.ok) throw new Error("Failed to fetch services");
 
@@ -119,7 +120,7 @@ function CreateOrder() {
   setLoading(true);
 
   try {
-    const res = await fetch("http://localhost:3000/order", {
+    const res = await fetch(`${API_URL}/order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

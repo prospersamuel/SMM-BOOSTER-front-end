@@ -1,6 +1,6 @@
 // src/pages/Signup.jsx
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
 import Content from "../components/Content";
@@ -122,7 +122,7 @@ const handleResendEmail = async () => {
   };
 
   return (
-    <div className="min-h-screen bg-white h-screen pb-10 flex flex-col-reverse lg:flex-row items-stretch">
+    <div className="min-h-screen bg-white lg:h-screen pb-10 flex flex-col-reverse lg:flex-row items-stretch">
       {/* Left Side - Form */}
       <div className="flex-1 flex items-center justify-center p-3">
         <div className="bg-white rounded-md w-full overflow-hidden">
@@ -264,7 +264,7 @@ const handleResendEmail = async () => {
             </p>
             
             <p className="text-xs text-gray-500 text-center mt-3">
-              By signing up, you agree to our <u className="cursor-pointer">Terms and Policy</u>
+              By signing up, you agree to our <NavLink style={{ textDecoration: 'underline' }} to={'/privacy'} className="cursor-pointer">Terms and Policy</NavLink>
             </p>
           </div>
         </div>

@@ -2,6 +2,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, PlusCircle, ListOrdered, User, LogOut, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { BiSupport } from "react-icons/bi";
 
 export default function MobileMenu({ isOpen, onClose }) {
   const { user, logout } = useAuth();
@@ -13,6 +14,7 @@ export default function MobileMenu({ isOpen, onClose }) {
     { path: "/order", label: "New Order", icon: <PlusCircle size={20} /> },
     { path: "/orders", label: "My Orders", icon: <ListOrdered size={20} /> },
     { path: "/profile", label: "My Profile", icon: <User size={20} /> },
+    { path: "/support", label: "Support", icon: <BiSupport size={20} /> },
   ];
 
   const handleLogout = async () => {

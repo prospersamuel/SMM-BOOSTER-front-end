@@ -12,6 +12,7 @@ import { AuthProvider } from "./context/AuthContext";
 import TopUp from "./pages/TopUp";
 import ToastProvider from "./components/ToastProvider";
 import Support from "./pages/Support";
+import PrivacyTerms from "./pages/PrivacyTerms";
 
 export default function App() {
   return (
@@ -21,6 +22,9 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/privacy" element={<PrivacyTerms />} />
+          <Route path="*" element={<div>404 - Not Found</div>} />
+          <Route path="support" element={<Support />} />
           
           {/* Protected Routes */}
           <Route path="/" element={
@@ -34,8 +38,6 @@ export default function App() {
             <Route path="orders" element={<Orders />} />
             <Route path="profile" element={<Profile />} />
             <Route path="topup" element={<TopUp />} />
-            <Route path="support" element={<Support />} />
-            <Route path="*" element={<div>404 - Not Found</div>} />
           </Route>
         </Routes>
       </AuthProvider>

@@ -1,13 +1,8 @@
 // src/pages/Support.jsx
-import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { Mail, MessageCircle, HelpCircle, Send, ChevronRight, Clock, Phone, FileText, AlertCircle } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { Mail, Clock, FileText, } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 
 export default function Support() {
-  const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
 
   const faqs = [
     {
@@ -58,10 +53,10 @@ export default function Support() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-28 sm:px-6 pb-10 lg:px-8">
+    <div className="min-h-screen bg-gray-50 pt-24 px-4 sm:px-6 pb-10 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 ">
           <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">How can we help you?</h1>
           <p className="text-md md:text-xl text-gray-600">We're here to help you with any questions or concerns</p>
         </div>
@@ -103,7 +98,7 @@ export default function Support() {
           </div>
 
           {/* FAQ Section */}
-            <div className="p-6 divide-y divide-gray-200">
+            <div className="p-4 divide-y divide-gray-200">
               {faqs.map((faq, index) => (
                 <div key={index} className="py-4 first:pt-0 last:pb-0">
                   <h3 className="text-lg font-medium text-gray-900 mb-2">{faq.question}</h3>

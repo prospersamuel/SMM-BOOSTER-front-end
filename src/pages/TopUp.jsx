@@ -8,6 +8,7 @@ import {
   ArrowLeft,
   AlertCircle,
 } from "lucide-react";
+import { API_URL } from "../lib/api";
 
 export default function TopUp() {
   const { user } = useAuth();
@@ -53,7 +54,7 @@ callback: async (response) => {
   setIsProcessing(true);
 
   try {
-    const res = await fetch("http://localhost:3000/verify-payment", {
+    const res = await fetch(`${API_URL}/verify-payment`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
